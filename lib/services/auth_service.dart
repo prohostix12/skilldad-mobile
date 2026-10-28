@@ -135,6 +135,32 @@ class AuthService {
     }
   }
 
+  /// Permanently deletes the signed-in student's account
+  /// (server/controllers/userController.js: deleteMyAccount). The password is
+  /// re-checked server-side. On success the local session is cleared.
+  Future<void> deleteAccount({required String token, required String password}) async {
+    http.Response response;
+    try {
+      final request = http.Request('DELETE', Uri.parse('${ApiConfig.baseUrl}/api/users/me'))
+        ..headers.addAll({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        })
+        ..body = jsonEncode({'password': password});
+      response = await http.Response.fromStream(
+        await _client.send(request).timeout(const Duration(seconds: 20)),
+      );
+    } catch (_) {
+      throw ApiException('Could not reach SkillDad. Check your connection and try again.');
+    }
+    if (response.statusCode != 200) {
+      throw ApiException(
+        _decodeBody(response)['message']?.toString() ?? 'Could not delete the account. Please try again.',
+      );
+    }
+    await signOut();
+  }
+
   Future<void> signOut() async {
     _cachedUser = null;
     final prefs = await SharedPreferences.getInstance();

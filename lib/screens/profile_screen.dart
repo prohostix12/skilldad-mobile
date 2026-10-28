@@ -123,6 +123,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Future<void> _deleteAccount() async {
+    final deleted = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => _DeleteAccountDialog(token: widget.token),
+    );
+    if (deleted != true || !mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
+      (route) => false,
+    );
+  }
+
   void _shareReferralCode(ReferralCode referral) {
     Clipboard.setData(ClipboardData(text: referral.code));
     ScaffoldMessenger.of(context).showSnackBar(
@@ -498,6 +510,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onAppSettings: _showAppSettingsSheet,
                       onHelpSupport: _showHelpSupportSheet,
                       onSignOut: _signOut,
+                      onDeleteAccount: _deleteAccount,
                     ),
                   ],
                 ),
@@ -1168,6 +1181,7 @@ class _MenuSection extends StatelessWidget {
     required this.onAppSettings,
     required this.onHelpSupport,
     required this.onSignOut,
+    required this.onDeleteAccount,
   });
 
   final StudentProfile profile;
@@ -1176,6 +1190,7 @@ class _MenuSection extends StatelessWidget {
   final VoidCallback onAppSettings;
   final VoidCallback onHelpSupport;
   final VoidCallback onSignOut;
+  final VoidCallback onDeleteAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -1233,6 +1248,15 @@ class _MenuSection extends StatelessWidget {
             titleColor: const Color(0xFFEF4444),
             iconColor: const Color(0xFFEF4444),
             onTap: onSignOut,
+          ),
+          const Divider(height: 1, indent: 56, endIndent: 16, color: Color(0xFFF1F5F9)),
+          _MenuItem(
+            icon: Icons.delete_forever_outlined,
+            title: 'Delete Account',
+            subtitle: 'Permanently delete your account and data',
+            titleColor: const Color(0xFFEF4444),
+            iconColor: const Color(0xFFEF4444),
+            onTap: onDeleteAccount,
           ),
         ],
       ),
@@ -1499,6 +1523,91 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
                 ),
               ),
       ),
+    );
+  }
+}
+
+/// Confirms with the account password, then permanently deletes the account.
+/// Pops `true` once the account is deleted and the local session is cleared.
+class _DeleteAccountDialog extends StatefulWidget {
+  const _DeleteAccountDialog({required this.token});
+
+  final String token;
+
+  @override
+  State<_DeleteAccountDialog> createState() => _DeleteAccountDialogState();
+}
+
+class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
+  final _passwordController = TextEditingController();
+  bool _busy = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    if (_passwordController.text.isEmpty) {
+      setState(() => _error = 'Enter your password to confirm.');
+      return;
+    }
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      await AuthService.instance.deleteAccount(
+        token: widget.token,
+        password: _passwordController.text,
+      );
+      if (mounted) Navigator.of(context).pop(true);
+    } on ApiException catch (e) {
+      if (mounted) setState(() => _error = e.message);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Delete account?'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'This permanently deletes your SkillDad account and personal data. '
+            'This cannot be undone. Enter your password to confirm.',
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            controller: _passwordController,
+            obscureText: true,
+            enabled: !_busy,
+            decoration: InputDecoration(
+              labelText: 'Password',
+              errorText: _error,
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: _busy ? null : () => Navigator.of(context).pop(false),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: _busy ? null : _submit,
+          child: Text(
+            _busy ? 'Deleting...' : 'Delete',
+            style: const TextStyle(color: Color(0xFFEF4444)),
+          ),
+        ),
+      ],
     );
   }
 }
