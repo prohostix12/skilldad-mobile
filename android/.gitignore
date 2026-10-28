@@ -1,0 +1,16 @@
+gradle-wrapper.jar
+/.gradle
+/captures/
+/gradlew
+/gradlew.bat
+/local.properties
+GeneratedPluginRegistrant.java
+.cxx/
+build/
+
+# Release signing secrets & Keystores — NEVER COMMIT
+key.properties
+*.keystore
+*.jks
+**/*.keystore
+**/*.jks

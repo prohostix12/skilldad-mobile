@@ -1,0 +1,58 @@
+name: skilldad_mobile
+description: "SkillDad mobile app."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  http: ^1.2.2
+  image_picker: ^1.1.2
+  share_plus: 12.0.0
+  shared_preferences: ^2.3.3
+  url_launcher: ^6.3.2
+  webview_flutter: ^4.14.1
+  youtube_player_flutter: ^9.0.3
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.4
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/images/directors/
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  # The real SkillDad brand mark (same asset the app's own header uses),
+  # not a placeholder - replaces the default Flutter launcher icon.
+  image_path: "assets/images/app_icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/images/app_icon_foreground.png"
+
+flutter_native_splash:
+  # The real SkillDad logo mark, centered on a plain background - a native
+  # splash shown by the OS while the Flutter engine boots, before the first
+  # frame (and the real landing page) can render. Standard app behaviour.
+  color: "#FFFFFF"
+  image: assets/images/app_icon_foreground.png
+  android_12:
+    color: "#FFFFFF"
+    image: assets/images/app_icon_foreground.png
+  android: true
+  ios: false
+  web: false

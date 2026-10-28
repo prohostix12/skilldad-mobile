@@ -1,0 +1,11 @@
+## Copy this file to `android/key.properties` (that exact filename, no ".example")
+## and fill in your real values. `key.properties` is gitignored — never commit it
+## or the .jks keystore file it points to.
+##
+## storeFile is relative to the android/app/ directory, so place the .jks
+## file there (e.g. android/app/skilldad-release.jks).
+
+storePassword=REPLACE_WITH_KEYSTORE_PASSWORD
+keyPassword=REPLACE_WITH_KEY_PASSWORD
+keyAlias=skilldad
+storeFile=skilldad-release.jks

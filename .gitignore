@@ -1,0 +1,76 @@
+# Miscellaneous & OS
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ & IDEs
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/
+
+# Flutter / Dart / Pub
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
+
+# Android Build & Gradle
+.gradle/
+**/android/.gradle/
+**/android/captures/
+**/android/app/debug
+**/android/app/profile
+**/android/app/release
+**/android/build/
+**/android/app/build/
+**/android/.cxx/
+**/GeneratedPluginRegistrant.java
+
+# Machine-specific Android configs
+**/local.properties
+android/local.properties
+
+# Release signing secrets & Keystores — NEVER COMMIT
+**/key.properties
+android/key.properties
+**/*.jks
+**/*.keystore
+**/*.p12
+**/*.pem
+**/*.key
+**/*.mobileprovision
+**/google-services.json
+**/GoogleService-Info.plist
+
+# Secret & Handover folders
+**/secrets/
+**/handover/
+*handover*
