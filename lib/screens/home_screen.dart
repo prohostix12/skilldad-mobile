@@ -218,7 +218,7 @@ class _CurvedHeader extends StatelessWidget {
     return CustomPaint(
       painter: const _HeaderWavePainter(),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(20, topInset + 20, 16, 76),
+        padding: EdgeInsets.fromLTRB(20, topInset + 28, 16, 120),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,7 +228,7 @@ class _CurvedHeader extends StatelessWidget {
               onSignIn: onSignIn,
               onSignOut: onSignOut,
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 36),
             _HeroContent(
               isSignedIn: isSignedIn,
               onExploreCourses: onExploreCourses,
@@ -584,7 +584,7 @@ class _HeroGraphic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 230,
+      height: 270,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
