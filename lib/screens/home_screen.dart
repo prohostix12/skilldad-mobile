@@ -399,11 +399,13 @@ class _HeroContentState extends State<_HeroContent> with SingleTickerProviderSta
       children: [
         Expanded(
           flex: 15,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FadeTransition(
-                opacity: _titleFade,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 28),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FadeTransition(
+                  opacity: _titleFade,
                 child: SlideTransition(
                   position: _titleSlide,
                   child: const Column(
@@ -462,6 +464,7 @@ class _HeroContentState extends State<_HeroContent> with SingleTickerProviderSta
             ],
           ),
         ),
+      ),
         const SizedBox(width: 8),
         const Expanded(
           flex: 10,
