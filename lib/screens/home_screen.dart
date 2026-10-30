@@ -400,7 +400,7 @@ class _HeroContentState extends State<_HeroContent> with SingleTickerProviderSta
         Expanded(
           flex: 15,
           child: Padding(
-            padding: const EdgeInsets.only(top: 28),
+            padding: const EdgeInsets.only(top: 54),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
